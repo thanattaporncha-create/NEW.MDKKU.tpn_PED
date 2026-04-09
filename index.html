@@ -1629,7 +1629,10 @@ async function fetchPatientAndHistory() {
         if (osmolWarnEl) osmolWarnEl.classList.toggle('hidden', !(currentRoute === 'peripheral' && totalOsmolValue > 900));
 
         // 15. Calories
-        const pCal = proteinVolume * 0.4;
+        // เช็คก่อนว่าเลือกตัวไหน: ถ้าเป็น aminoplasmal (15%) ใช้ 0.6 ถ้าตัวอื่นใช้ 0.4
+const pMultiplier = (document.querySelector('input[name="proteinProduct"]:checked')?.value === 'aminoplasmal') ? 0.6 : 0.4;
+
+const pCal = proteinVolume * pMultiplier; // พลังงานโปรตีนที่ถูกต้อง
         const dCal = dextroseVolume * 0.5 * 3.4;
         const fCal = (parseFloat(document.getElementById('fatVolume').value) || 0) * 2;
 
